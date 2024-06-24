@@ -1,10 +1,10 @@
 import { isRight } from 'fp-ts/lib/Either';
 import { inject, injectable } from 'inversify';
 import { SERVICE_IDENTIFIER } from '../../inversify/inversifyTypes';
-import { IApiInteractionService } from '../../shared/types/ApiTypes';
 import { definitions } from '../../shared/types/EndpointDescription';
-import { BaseInteractionError } from '../Errors/BaseInteractionError';
+import { BaseInteractionError } from '../errors/BaseInteractionError';
 import { ApiRoutes, API_URL } from '../serverRouteContants';
+import { ApiInteractionService } from 'api_interaction_services'
 
 @injectable()
 export class FileInteractionService {
@@ -12,7 +12,7 @@ export class FileInteractionService {
     public defaultElementsPerPage: undefined | number = undefined;
     public defaultPage = 0;
 
-    constructor(@inject(SERVICE_IDENTIFIER.ApiInteractionService) protected _apiService: IApiInteractionService) {}
+    constructor(@inject(SERVICE_IDENTIFIER.ApiInteractionService) protected _apiService: ApiInteractionService) {}
 
     public getFiles = async (directory = '.', page = this.defaultPage, perPage = this.defaultElementsPerPage) => {
         const res = await this._apiService.get<{ data: definitions['File'][] }>(ApiRoutes.FILE.GET_ALL_FILES, {

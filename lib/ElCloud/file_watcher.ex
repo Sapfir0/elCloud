@@ -23,7 +23,7 @@ defmodule ElCloud.Watcher do
     ElCloudWeb.FileChannel.send_message("File #{:path} was #{:current_event}")
     IO.inspect path
     IO.inspect current_event
-    # update_file_index(@indexes_file)
+    ElCloud.Search.Helper.create_indexes() # TODO ужасно, мы пересоздаем файл индексов полностью на любое изменение файлов
     {:noreply, state}
   end
 

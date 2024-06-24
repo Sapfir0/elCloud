@@ -12,7 +12,7 @@ const root = path.resolve('.');
 module.exports = (env) => {
     console.log(env);
 
-    const currentEnivronment = env.NODE_ENV || env.nodeEnv; // почему-то devServer и обычная сборка по-разному прокидывают аргументы
+    const currentEnivronment = env?.NODE_ENV || env?.nodeEnv; // почему-то devServer и обычная сборка по-разному прокидывают аргументы
     console.log(currentEnivronment);
     const isProduction = currentEnivronment === 'prod';
 

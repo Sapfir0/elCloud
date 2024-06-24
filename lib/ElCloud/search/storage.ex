@@ -13,13 +13,29 @@ defmodule ElCloud.Search.Helper do
 
   @spec indexed_search(String.t(), String.t()) :: [String.t()]
   def indexed_search(directory, query_filename) do
-    File.read!(@indexes_file) 
-    |> Poison.decode!()  
-    |> List.flatten()
-    |> Enum.filter(fn file -> 
-      String.match?(file["filename"], ~r/#{query_filename}/) 
-    end)
+    File.read!(@indexes_file)
+    |> Poison.decode!()
+    |> walk_by_indexed_files(query_filename)
 
+  end
+
+  def walk_by_indexed_files(files, query_filename) do
+    fixed_files = files
+    |> Enum.map(fn file ->
+      if (file["children"] != nil) do
+        walk_by_indexed_files(file["children"], query_filename)
+      else
+        IO.inspect "#{file["filename"]}"
+        # %{file, "children": nil}
+      end
+    end)
+    # IO.inspect fixed_files
+
+    Enum.filter(fixed_files, fn file ->
+        # IO.inspect file
+        # String.match?(file["filename"], ~r/#{query_filename}/)
+        file
+    end)
   end
 
   def create_indexes() do

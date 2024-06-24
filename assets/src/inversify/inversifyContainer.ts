@@ -8,17 +8,17 @@ import { FileViewStore } from '../components/FileView/FileViewStore';
 import { SearchStore } from '../components/Search/SearchStore';
 import { SortableTreeStore } from '../components/SortableTree/SortableTreeStore';
 import { TableFileStore } from '../components/Table/TableFileStore';
-import ApiInteractionService from '../services/ApiInteractionService';
 import { FileInteractionService } from '../services/apiServices/FileInteractionService';
 import { SearchInteractionService } from '../services/apiServices/SearchInteractionService';
-import BaseApiInteractionService from '../services/BaseApiInteractionService';
 import { FileSystemChecker } from '../services/socket';
 import { SERVICE_IDENTIFIER } from './inversifyTypes';
+import {ApiInteractionService} from 'api_interaction_services'
+import { API_URL } from '../services/serverRouteContants';
+
 
 const container = new Container();
 container.bind<FilesListStore>(SERVICE_IDENTIFIER.FilesListStore).to(FilesListStore).inSingletonScope();
-container.bind(SERVICE_IDENTIFIER.BaseApiInteractionService).to(BaseApiInteractionService).inSingletonScope();
-container.bind(SERVICE_IDENTIFIER.ApiInteractionService).to(ApiInteractionService).inSingletonScope();
+container.bind<ApiInteractionService>(SERVICE_IDENTIFIER.ApiInteractionService).toConstantValue(new ApiInteractionService(API_URL));
 container.bind(SERVICE_IDENTIFIER.FileInteractionService).to(FileInteractionService);
 container.bind(SERVICE_IDENTIFIER.FileSystemChecker).to(FileSystemChecker).inSingletonScope();
 container.bind(SERVICE_IDENTIFIER.FileListDropdownStore).to(FileListDropdownStore).inSingletonScope();

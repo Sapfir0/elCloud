@@ -13,8 +13,8 @@ defmodule ElCloud.FileStorage do
     end
   end
 
-  
-  def list_files_unsafe(directory, page \\ 0, page_size \\ nil, is_recursive \\ false) do
+
+  def list_files_unsafe(directory, page \\ 0, page_size \\ nil, is_recursive \\ true) do
     real_page_size = if page_size === nil, do: ElCloud.FileStorage.get_save_file_count(directory), else: String.to_integer(page_size)
     list_files(directory, page, real_page_size, is_recursive)
   end

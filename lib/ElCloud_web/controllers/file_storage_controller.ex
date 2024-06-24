@@ -6,6 +6,10 @@ defmodule ElCloudWeb.FileStorageController do
 
   @data_dir Application.get_env(:elCloud, ElCloudWeb.FileStorageController)[:data_dir]
 
+  def send_response({:error, :enoent}, conn), do: {:error, :folderNotFound}
+  def send_response(:ok, conn), do: render(conn, "show.json", file_storage: :ok)
+
+
   def swagger_definitions do
     %{
       File:
@@ -54,8 +58,6 @@ defmodule ElCloudWeb.FileStorageController do
       |> send_response(conn)
   end
 
-  def send_response({:error, :enoent}, conn), do: {:error, :folderNotFound}
-  def send_response(:ok, conn), do: render(conn, "show.json", file_storage: :ok)
 
   swagger_path(:post) do
     PhoenixSwagger.Path.post("/api/files")

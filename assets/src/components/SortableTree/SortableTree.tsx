@@ -11,7 +11,7 @@ export const SortableFileTree = observer(() => {
     const store = useInject<SortableTreeStore>(SERVICE_IDENTIFIER.SortableTreeStore);
 
     const canNodeHaveChildren = (node: TreeItem): boolean => node.is_folder;
-    const getNodeKey = (data: TreeNode & TreeIndex) => data.node.path;
+    const getNodeKey = (data: TreeNode & TreeIndex) => data.node.path
 
     return (
         <div style={{ height: 400 }}>
